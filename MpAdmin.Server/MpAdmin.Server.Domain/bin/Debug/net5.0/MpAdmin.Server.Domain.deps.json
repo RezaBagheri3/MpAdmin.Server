@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "MpAdmin.Server.Domain/1.0.0": {
+        "runtime": {
+          "MpAdmin.Server.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MpAdmin.Server.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

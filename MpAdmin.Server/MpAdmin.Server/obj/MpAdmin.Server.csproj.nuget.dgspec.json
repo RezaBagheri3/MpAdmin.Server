@@ -4,14 +4,14 @@
     "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj": {}
   },
   "projects": {
-    "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj": {
+    "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj",
-        "projectName": "MpAdmin.Server",
-        "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj",
+        "projectUniqueName": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj",
+        "projectName": "MpAdmin.Server.DAL",
+        "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj",
         "packagesPath": "C:\\Users\\reza\\.nuget\\packages\\",
-        "outputPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\obj\\",
+        "outputPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\reza\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,9 +40,101 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.10, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj",
+        "projectName": "MpAdmin.Server",
+        "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.csproj",
+        "packagesPath": "C:\\Users\\reza\\.nuget\\packages\\",
+        "outputPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\reza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
+                "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[5.6.3, )"
+              "version": "[6.2.1, )"
             }
           },
           "imports": [
