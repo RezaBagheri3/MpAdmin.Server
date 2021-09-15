@@ -1593,6 +1593,20 @@
         "runtime": {
           "bin/placeholder/MpAdmin.Server.DAL.dll": {}
         }
+      },
+      "MpAdmin.Server.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.10",
+          "MpAdmin.Server.DAL": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MpAdmin.Server.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MpAdmin.Server.Domain.dll": {}
+        }
       }
     }
   },
@@ -5958,6 +5972,11 @@
       "type": "project",
       "path": "../MpAdmin.Server.DAL/MpAdmin.Server.DAL.csproj",
       "msbuildProject": "../MpAdmin.Server.DAL/MpAdmin.Server.DAL.csproj"
+    },
+    "MpAdmin.Server.Domain/1.0.0": {
+      "type": "project",
+      "path": "../MpAdmin.Server.Domain/MpAdmin.Server.Domain.csproj",
+      "msbuildProject": "../MpAdmin.Server.Domain/MpAdmin.Server.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5966,6 +5985,7 @@
       "Microsoft.EntityFrameworkCore.Design >= 5.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.10",
       "MpAdmin.Server.DAL >= 1.0.0",
+      "MpAdmin.Server.Domain >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.2.1"
     ]
   },
@@ -5998,6 +6018,9 @@
           "projectReferences": {
             "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
               "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj"
+            },
+            "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj": {
+              "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj"
             }
           }
         }

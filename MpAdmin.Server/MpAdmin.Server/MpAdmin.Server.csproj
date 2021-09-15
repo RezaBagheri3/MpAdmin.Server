@@ -15,11 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MpAdmin.Server.DAL\MpAdmin.Server.DAL.csproj" />
+    <ProjectReference Include="..\MpAdmin.Server.Domain\MpAdmin.Server.Domain.csproj" />
   </ItemGroup>
 
 </Project>
