@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj": {}
+    "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj": {}
   },
   "projects": {
-    "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
+    "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj",
         "projectName": "MpAdmin.Server.DAL",
-        "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj",
-        "packagesPath": "C:\\Users\\reza\\.nuget\\packages\\",
-        "outputPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\obj\\",
+        "projectPath": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj",
+        "packagesPath": "C:\\Users\\asma\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\reza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\asma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -74,21 +74,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj": {
+    "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj",
         "projectName": "MpAdmin.Server.Domain",
-        "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj",
-        "packagesPath": "C:\\Users\\reza\\.nuget\\packages\\",
-        "outputPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\obj\\",
+        "projectPath": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\MpAdmin.Server.Domain.csproj",
+        "packagesPath": "C:\\Users\\asma\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\reza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\asma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -102,8 +102,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
-                "projectPath": "C:\\ProgrammingProjects\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj"
+              "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj": {
+                "projectPath": "C:\\Users\\asma\\Desktop\\MpAdmin\\MpAdmin.Server\\MpAdmin.Server\\MpAdmin.Server.DAL\\MpAdmin.Server.DAL.csproj"
               }
             }
           }
@@ -138,7 +138,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
