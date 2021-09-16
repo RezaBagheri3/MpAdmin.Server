@@ -10,7 +10,7 @@ using MpAdmin.Server.Models;
 
 namespace MpAdmin.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -22,6 +22,7 @@ namespace MpAdmin.Server.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         public async Task<ActionResult<int>> CheckLoginInfo([FromBody] LoginInfoModel model)
         {
             try
