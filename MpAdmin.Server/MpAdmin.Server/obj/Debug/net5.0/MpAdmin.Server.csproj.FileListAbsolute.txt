@@ -63,3 +63,4 @@ C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\bin\Debug\ne
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\bin\Debug\net5.0\MpAdmin.Server.DAL.pdb
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\bin\Debug\net5.0\MpAdmin.Server.Domain.dll
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\bin\Debug\net5.0\MpAdmin.Server.Domain.pdb
+C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\bin\Debug\net5.0\Telegram.Bot.dll
