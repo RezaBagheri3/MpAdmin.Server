@@ -51,31 +51,5 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
-
-        [HttpGet]
-        [Route("[action]")]
-        public async Task<ActionResult<int>> StopBot()
-        {
-            try
-            {
-                botThread.Abort();
-
-                return Ok(
-                    new
-                    {
-                        result = 1
-                    }
-                );
-            }
-            catch (Exception e)
-            {
-                return BadRequest(
-                    new
-                    {
-                        e
-                    }
-                );
-            }
-        }
     }
 }
