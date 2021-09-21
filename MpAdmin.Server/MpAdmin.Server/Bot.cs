@@ -140,20 +140,29 @@ namespace MpAdmin.Server
 
                                     if (WallPaperItem != null)
                                     {
-                                        if (WallPaperItem.Stock >= int.Parse(CodeAndStock[1]))
+                                        try
                                         {
-                                            StringBuilder sb = new StringBuilder();
-                                            sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
-                                            sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
-                                            sb.AppendLine("وضعیت موجودی : موجود" + " " + "\U00002705");
-                                            bot.SendTextMessageAsync(chatId, sb.ToString());
+                                            if (WallPaperItem.Stock >= int.Parse(CodeAndStock[1]))
+                                            {
+                                                StringBuilder sb = new StringBuilder();
+                                                sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
+                                                sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
+                                                sb.AppendLine("وضعیت موجودی : موجود" + " " + "\U00002705");
+                                                bot.SendTextMessageAsync(chatId, sb.ToString());
+                                            }
+                                            else
+                                            {
+                                                StringBuilder sb = new StringBuilder();
+                                                sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
+                                                sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
+                                                sb.AppendLine("وضعیت موجودی : ناموجود" + " " + "\U0000274C");
+                                                bot.SendTextMessageAsync(chatId, sb.ToString());
+                                            }
                                         }
-                                        else
+                                        catch (Exception e)
                                         {
                                             StringBuilder sb = new StringBuilder();
-                                            sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
-                                            sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
-                                            sb.AppendLine("وضعیت موجودی : ناموجود" + " " + "\U0000274C");
+                                            sb.AppendLine("تعداد رول مد نظر خود را به صورت عددی وارد کنید ." + " " + "\U000026A0");
                                             bot.SendTextMessageAsync(chatId, sb.ToString());
                                         }
                                     }

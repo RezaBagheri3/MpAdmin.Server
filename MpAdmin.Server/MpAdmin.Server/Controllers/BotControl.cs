@@ -34,6 +34,31 @@ namespace MpAdmin.Server.Controllers
                 botThread = new Thread(new ThreadStart(bot.RunBot));
                 botThread.Start();
 
+                return Ok(
+                    new
+                    {
+                        result = 1
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> StopBot()
+        {
+            try
+            {
+                botThread.Abort();
 
                 return Ok(
                     new
