@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.Domain;
 
@@ -28,9 +29,9 @@ namespace MpAdmin.Server.Controllers
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-                var items = await unitOfWork.WallPaperRepo.GetAsync();
+                var items = await unitOfWork.WallPaperRepo.GetAsync().Result.ToListAsync();
 
-                if (items != null)
+                if (items.Count != 0)
                 {
                     return Ok(
                         new
