@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MpAdmin.Server.DAL.Context;
 
 namespace MpAdmin.Server.DAL.Migrations
 {
     [DbContext(typeof(MpAdminContext))]
-    partial class MpAdminContextModelSnapshot : ModelSnapshot
+    [Migration("20210926103625_AddBotEntities")]
+    partial class AddBotEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

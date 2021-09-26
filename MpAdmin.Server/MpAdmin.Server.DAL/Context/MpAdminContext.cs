@@ -21,6 +21,10 @@ namespace MpAdmin.Server.DAL.Context
 
         public DbSet<WallPaper> WallPapers { get; set; }
 
+        public DbSet<BotChat> BotChats { get; set; }
+
+        public DbSet<TelegramUser> TelegramUsers { get; set; }
+
         #endregion
     }
 }
