@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.Domain;
+using MpAdmin.Server.Models;
 
 namespace MpAdmin.Server.Controllers
 {
@@ -51,6 +52,63 @@ namespace MpAdmin.Server.Controllers
                         }
                     );
                 }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<WallPaper>> AddWallPaper([FromBody] AddWallPaperModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var CheckWallPaper = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Code == model.code);
+
+                if (CheckWallPaper == null)
+                {
+                    DAL.Entities.WallPaper item = new DAL.Entities.WallPaper()
+                    {
+                        Code = model.code,
+                        BatchNumber = model.batchNumber,
+                        Album = model.album,
+                        Stock = model.stock
+                    };
+
+                    unitOfWork.WallPaperRepo.Create(item);
+                    await unitOfWork.SaveAsync();
+
+                    var NewWallPaper = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Code == model.code);
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            wallpaper = NewWallPaper
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "کاغذديواري با چنين کدي در بانک موجود است ."
+                        }
+                    );
+                }
+
+
             }
             catch (Exception e)
             {
