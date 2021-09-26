@@ -66,7 +66,7 @@ namespace MpAdmin.Server.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<WallPaper>> AddWallPaper([FromBody] AddWallPaperModel model)
+        public async Task<ActionResult<DAL.Entities.WallPaper>> AddWallPaper([FromBody] AddWallPaperModel model)
         {
             try
             {
