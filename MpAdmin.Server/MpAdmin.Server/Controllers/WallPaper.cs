@@ -120,5 +120,49 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> DeleteWallPaper([FromBody] int WallPaperId)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var CheckItem = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Id == WallPaperId);
+
+                if (CheckItem != null)
+                {
+                    await unitOfWork.WallPaperRepo.DeleteAsync(CheckItem);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنين کاغذي در بانک براي حذف يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
