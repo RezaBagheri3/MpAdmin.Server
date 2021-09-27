@@ -123,13 +123,13 @@ namespace MpAdmin.Server.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<int>> DeleteWallPaper([FromBody] int WallPaperId)
+        public async Task<ActionResult<int>> DeleteWallPaper([FromBody] WallPaperDeleteModel model)
         {
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-                var CheckItem = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Id == WallPaperId);
+                var CheckItem = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Id == model.wallPaperId);
 
                 if (CheckItem != null)
                 {
