@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
+using MpAdmin.Server.DAL.Entities;
 using MpAdmin.Server.Domain;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -27,14 +28,14 @@ namespace MpAdmin.Server
             bot = new TelegramBotClient("1919785864:AAGVm7IOAAaZekxYSgauTwIOk4bFRrvrskY");
 
             mainKeyboardMarkup = new ReplyKeyboardMarkup();
+
             KeyboardButton[] row1 =
             {
-                new KeyboardButton("استعلام موجودی کاغذ")
+                new KeyboardButton("راهنماي استفاده" + " " + "\U00002049")
             };
             KeyboardButton[] row2 =
             {
-                new KeyboardButton("کانال ما" + " " + "\U0001F4E2"),
-                new KeyboardButton("گروه ما" + " " + "\U0001F4CE")
+                new KeyboardButton("ارتباط با ما" + " " + "\U0000260E")
             };
 
             mainKeyboardMarkup.Keyboard = new KeyboardButton[][]
@@ -43,7 +44,6 @@ namespace MpAdmin.Server
             };
 
             int offset = 0;
-            var wallPaperStockControl = 0;
 
             while (true)
             {
@@ -73,122 +73,99 @@ namespace MpAdmin.Server
                         if (message.Contains("/start"))
                         {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("یا الله " + from.FirstName);
-                            sb.AppendLine("سلام علیکم و رحمت الله و برکاته");
-                            sb.AppendLine("کانال ما  : /channel");
+                            sb.AppendLine("سلام کاربر" + " " + from.FirstName + " به ربات استعلام موجودي مجموعه آقاي کاغذ خوش آمديد " + "\U0001F339");
+                            sb.AppendLine("راهنماي استفاده : /help");
+                            sb.AppendLine("ارتباط با ما : /contactus");
 
                             bot.SendTextMessageAsync(chatId, sb.ToString(), ParseMode.Default, null, false, false, 0, false, mainKeyboardMarkup);
                         }
-                        else if (message.Contains("/channel") || message.Contains("کانال ما"))
+                        else if (message.Contains("/contactus") || message.Contains("ارتباط با ما"))
                         {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("کانال ما : t.me/wallpaperstock113");
+                            sb.AppendLine("\U00002728" + " مجموعه کاغذ ديواري آقاي کاغذ " + "\U00002728");
+                            sb.AppendLine("شماره تلفن : 09157698346 ");
+                            sb.AppendLine("آدرس : ");
 
                             bot.SendTextMessageAsync(chatId, sb.ToString());
                         }
-                        else if (message.Contains("/group") || message.Contains("گروه ما"))
+                        else if (message.Contains("/help") || message.Contains("راهنماي استفاده"))
                         {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("گروه ما : t.me/salewallpaperstock");
-
-                            bot.SendTextMessageAsync(chatId, sb.ToString());
-                        }
-                        else if (message.Contains("بازگشت به منوي اصلي"))
-                        {
-                            bot.SendTextMessageAsync(chatId, "به منوي اصلي بازگشتيد", ParseMode.Default, null, false, false, 0, false, mainKeyboardMarkup);
-                        }
-                        else if (message.Contains("/group") || message.Contains("گروه ما"))
-                        {
-                            StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("گروه ما : t.me/salewallpaperstock");
-
-                            bot.SendTextMessageAsync(chatId, sb.ToString());
-                        }
-                        else if (message.Contains("استعلام موجودی کاغذ"))
-                        {
-                            wallPaperStockControl = 1;
-                            StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("کد کاغذ + یک فاصله + تعداد رول مد نظر خود را وارد کنید .");
+                            sb.AppendLine("\U000026AB" + "براي استعلام موجودي کاغذ ديواري  به اين صورت عمل کنيد : ");
+                            sb.AppendLine("ابتدا کد کاغذ ديواري مد نظر خود را تايپ کنيد سپس يک فاصله قرار دهيد و بعد تعداد رول مد نظر براي استعلام را وارد کنيد .");
+                            sb.AppendLine("\U000026AB" + "مثال : 50 43521 >>>>>>>>>>>> کد کاغذ : 43521 و تعداد رول : 50");
+                            sb.AppendLine("\U000026AB" + "دقت کنيد که اعداد در کد کاغذ و تعداد رول حتما بايد به صورت انگليسي تايپ شوند ، در غير اين صورت قادر به استعلام موجودي نخواهيد بود " + "\U000026A0");
+                            sb.AppendLine("با تشکر مديريت مجموعه آقاي کاغذ" + "\U0001F339");
 
                             bot.SendTextMessageAsync(chatId, sb.ToString());
                         }
                         else if (double.TryParse(checkMessageString[0], out x))
                         {
-                            if (wallPaperStockControl == 1)
+                            string[] CodeAndStock = message.Split(' ');
+
+                            if (CodeAndStock[0].Length < 3 || CodeAndStock[0].Length > 6)
                             {
-                                string[] CodeAndStock = message.Split(' ');
+                                StringBuilder sd = new StringBuilder();
+                                sd.AppendLine("کد کاغذ وارد شده نامعتبر می باشد " + "\U000026A0");
 
-                                if (CodeAndStock[0].Length < 3 || CodeAndStock[0].Length > 6)
-                                {
-                                    StringBuilder sd = new StringBuilder();
-                                    sd.AppendLine("کد کاغذ وارد شده نامعتبر می باشد .");
+                                bot.SendTextMessageAsync(chatId, sd.ToString());
+                            }
+                            else if (CodeAndStock.Length < 2)
+                            {
+                                StringBuilder sd = new StringBuilder();
+                                sd.AppendLine("\U000026AA" + "برای استعلام موجودی کاغذ باید کد کاغذ + یک فاصله + تعداد رول مد نظر خود را وارد کنید .");
 
-                                    bot.SendTextMessageAsync(chatId, sd.ToString());
-                                }
-                                else if (CodeAndStock.Length < 2)
-                                {
-                                    StringBuilder sd = new StringBuilder();
-                                    sd.AppendLine("برای استعلام موجودی کاغذ باید کد کاغذ + یک فاصله + تعداد رول مد نظر خود را وارد کنید .");
-
-                                    bot.SendTextMessageAsync(chatId, sd.ToString());
-                                }
-                                else
-                                {
-                                    UnitOfWork unitOfWork = new UnitOfWork(context);
-
-                                    var WallPaperItem = unitOfWork.WallPaperRepo.FirstOrDefaultAsync(r => r.Code == CodeAndStock[0]).Result;
-
-                                    if (WallPaperItem != null)
-                                    {
-                                        try
-                                        {
-                                            if (WallPaperItem.Stock >= int.Parse(CodeAndStock[1]))
-                                            {
-                                                StringBuilder sb = new StringBuilder();
-                                                sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
-                                                sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
-                                                sb.AppendLine("وضعیت موجودی : موجود" + " " + "\U00002705");
-                                                bot.SendTextMessageAsync(chatId, sb.ToString());
-                                            }
-                                            else
-                                            {
-                                                StringBuilder sb = new StringBuilder();
-                                                sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
-                                                sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
-                                                sb.AppendLine("وضعیت موجودی : ناموجود" + " " + "\U0000274C");
-                                                bot.SendTextMessageAsync(chatId, sb.ToString());
-                                            }
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            StringBuilder sb = new StringBuilder();
-                                            sb.AppendLine("تعداد رول مد نظر خود را به صورت عددی وارد کنید ." + " " + "\U000026A0");
-                                            bot.SendTextMessageAsync(chatId, sb.ToString());
-                                        }
-                                    }
-                                    else
-                                    {
-                                        StringBuilder sb = new StringBuilder();
-                                        sb.AppendLine("کد کاغذ وارد شده یافت نشد .");
-                                        bot.SendTextMessageAsync(chatId, sb.ToString());
-                                    }
-
-                                }
+                                bot.SendTextMessageAsync(chatId, sd.ToString());
                             }
                             else
                             {
-                                StringBuilder sb = new StringBuilder();
-                                sb.AppendLine("برای استعلام موجودی ابتدا دکمه استعلام موجودی کاغذ را بفشارید .");
+                                UnitOfWork unitOfWork = new UnitOfWork(context);
 
+                                var WallPaperItem = unitOfWork.WallPaperRepo.FirstOrDefaultAsync(r => r.Code == CodeAndStock[0]).Result;
 
-                                bot.SendTextMessageAsync(chatId, sb.ToString());
+                                if (WallPaperItem != null)
+                                {
+                                    try
+                                    {
+                                        if (WallPaperItem.Stock >= int.Parse(CodeAndStock[1]))
+                                        {
+                                            StringBuilder sb = new StringBuilder();
+                                            sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
+                                            sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
+                                            sb.AppendLine("وضعیت موجودی : موجود" + " " + "\U00002705");
+                                            bot.SendTextMessageAsync(chatId, sb.ToString());
+                                        }
+                                        else
+                                        {
+                                            StringBuilder sb = new StringBuilder();
+                                            sb.AppendLine($"کد کاغذ : {WallPaperItem.Code}");
+                                            sb.AppendLine($"آلبوم : {WallPaperItem.Album}");
+                                            sb.AppendLine("وضعیت موجودی : ناموجود" + " " + "\U0000274C");
+                                            bot.SendTextMessageAsync(chatId, sb.ToString());
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.AppendLine("لطفا تعداد رول مد نظر خود را به صورت عددی وارد کنید " + " " + "\U000026A0");
+                                        bot.SendTextMessageAsync(chatId, sb.ToString());
+                                    }
+                                }
+                                else
+                                {
+                                    StringBuilder sb = new StringBuilder();
+                                    sb.AppendLine("کد کاغذ وارد شده یافت نشد " + "\U0000274C");
+                                    bot.SendTextMessageAsync(chatId, sb.ToString());
+                                }
+
                             }
                         }
                         else
                         {
                             StringBuilder sg = new StringBuilder();
-                            sg.AppendLine("دستور وارد شده معتبر نمي باشد.");
-                            sg.AppendLine("از دکمه ها براي دسترسي به دستور مورد نياز خود استفاده کنيد .");
+                            sg.AppendLine("دستور وارد شده معتبر نمي باشد." + "\U0000274C");
+                            sg.AppendLine("\U000026A1" + "دکمه راهنماي استفاده را براي اطلاع از نحوه کار ربات بفشاريد يا دستور زير را وارد کنيد : ");
+                            sg.AppendLine("/help");
 
                             bot.SendTextMessageAsync(chatId, sg.ToString());
                         }
@@ -197,10 +174,36 @@ namespace MpAdmin.Server
                     else
                     {
                         StringBuilder sg = new StringBuilder();
-                        sg.AppendLine("دستور وارد شده معتبر نمي باشد.");
+                        sg.AppendLine("دستور وارد شده معتبر نمي باشد." + "\U0000274C");
+                        sg.AppendLine("\U000026A1" + "دکمه راهنماي استفاده را براي اطلاع از نحوه کار ربات بفشاريد يا دستور زير را وارد کنيد : ");
+                        sg.AppendLine("/help");
 
                         bot.SendTextMessageAsync(chatId, sg.ToString());
                     }
+
+                    UnitOfWork unitOfWork2 = new UnitOfWork(context);
+                    var CheckChatId = unitOfWork2.BotChatRepo.FirstOrDefault(r => r.ChatId == chatId.ToString());
+
+                    if (CheckChatId == null && chatId.ToString() != null)
+                    {
+                        BotChat botChatId = new BotChat()
+                        {
+                            ChatId = chatId.ToString()
+                        };
+                        unitOfWork2.BotChatRepo.Create(botChatId);
+                    }
+
+                    var CheckUserName = unitOfWork2.TelegramUserRepo.FirstOrDefault(p => p.UserName == from.Username);
+
+                    if (CheckUserName == null && from.Username != null)
+                    {
+                        TelegramUser Teluser = new TelegramUser()
+                        {
+                            UserName = from.Username
+                        };
+                        unitOfWork2.TelegramUserRepo.Create(Teluser);
+                    }
+                    unitOfWork2.Save();
                 }
             }
         }

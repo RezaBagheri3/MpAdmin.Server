@@ -21,8 +21,6 @@ namespace MpAdmin.Server.Controllers
     public class BotControl : ControllerBase
     {
         private Thread botThread;
-        private TelegramBotClient bot;
-        private ReplyKeyboardMarkup mainKeyboardMarkup;
 
         [HttpGet]
         [Route("[action]")]

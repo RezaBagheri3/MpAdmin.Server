@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MpAdmin.Server.DAL.Context;
+using MpAdmin.Server.DAL.Entities;
 using MpAdmin.Server.Domain.Repositories;
 
 namespace MpAdmin.Server.Domain
@@ -22,6 +23,12 @@ namespace MpAdmin.Server.Domain
 
         private WallPaperRepo _wallPaperRepo;
         public WallPaperRepo WallPaperRepo => _wallPaperRepo ??= new WallPaperRepo(DbContext);
+
+        private BotChatRepo _botChatRepo;
+        public BotChatRepo BotChatRepo => _botChatRepo ??= new BotChatRepo(DbContext);
+
+        private TelegramUserRepo _telegramUserRepo;
+        public TelegramUserRepo TelegramUserRepo => _telegramUserRepo ??= new TelegramUserRepo(DbContext);
 
         #region Methods
 
@@ -68,7 +75,7 @@ namespace MpAdmin.Server.Domain
                 throw ex;
             }
         }
-        
+
         #endregion
 
     }

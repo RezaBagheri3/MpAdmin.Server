@@ -30,7 +30,7 @@ namespace MpAdmin.Server.Controllers
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-                var items = await unitOfWork.WallPaperRepo.GetAsync().Result.ToListAsync();
+                var items = await unitOfWork.WallPaperRepo.GetAsync().Result.OrderBy(r => r.Stock).ToListAsync();
 
                 if (items.Count != 0)
                 {
