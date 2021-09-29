@@ -48,6 +48,7 @@ namespace MpAdmin.Server.Controllers
                         new
                         {
                             result = 2,
+                            wallpapers = items,
                             message = "هيچ کاغذي در بانک ثبت نشده است ."
                         }
                     );

@@ -73,7 +73,7 @@ namespace MpAdmin.Server
                         if (message.Contains("/start"))
                         {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("سلام کاربر" + " " + from.FirstName + " به ربات استعلام موجودي مجموعه آقاي کاغذ خوش آمديد " + "\U0001F339");
+                            sb.AppendLine("سلام کاربر" + " " + from.FirstName + " به ربات استعلام موجودي مجموعه MP خوش آمديد " + "\U0001F339");
                             sb.AppendLine("راهنماي استفاده : /help");
                             sb.AppendLine("ارتباط با ما : /contactus");
 
@@ -82,20 +82,30 @@ namespace MpAdmin.Server
                         else if (message.Contains("/contactus") || message.Contains("ارتباط با ما"))
                         {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("\U00002728" + " مجموعه کاغذ ديواري آقاي کاغذ " + "\U00002728");
-                            sb.AppendLine("شماره تلفن : 09157698346 ");
-                            sb.AppendLine("آدرس : ");
+                            sb.AppendLine("آدرس کانال :");
+                            sb.AppendLine("@wallpaperstock113");
+                            sb.AppendLine("");
+                            sb.AppendLine("پیج اینستاگرام :");
+                            sb.AppendLine("https://www.instagram.com/mp.wallpaper13");
+                            sb.AppendLine("");
+                            sb.AppendLine("شماره تماس :");
+                            sb.AppendLine("\U0000260E" + "09157698346");
+                            sb.AppendLine("\U0000260E" + "09158972595");
 
                             bot.SendTextMessageAsync(chatId, sb.ToString());
                         }
                         else if (message.Contains("/help") || message.Contains("راهنماي استفاده"))
                         {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine("\U000026AB" + "براي استعلام موجودي کاغذ ديواري  به اين صورت عمل کنيد : ");
-                            sb.AppendLine("ابتدا کد کاغذ ديواري مد نظر خود را تايپ کنيد سپس يک فاصله قرار دهيد و بعد تعداد رول مد نظر براي استعلام را وارد کنيد .");
-                            sb.AppendLine("\U000026AB" + "مثال : 50 43521 >>>>>>>>>>>> کد کاغذ : 43521 و تعداد رول : 50");
-                            sb.AppendLine("\U000026AB" + "دقت کنيد که اعداد در کد کاغذ و تعداد رول حتما بايد به صورت انگليسي تايپ شوند ، در غير اين صورت قادر به استعلام موجودي نخواهيد بود " + "\U000026A0");
-                            sb.AppendLine("با تشکر مديريت مجموعه آقاي کاغذ" + "\U0001F339");
+                            sb.AppendLine("\U000026AB" + "براي استعلام موجودي به اين صورت عمل کنيد  :");
+                            sb.AppendLine("");
+                            sb.AppendLine("\U0001F534" + "ابتدا کد کاغذ مورد نظر خود را نوشته  سپس يک فاصله قرار دهيد و بعد تعداد رول را وارد کنيد . ");
+                            sb.AppendLine("");
+                            sb.AppendLine("\U000026AB" + "مثال : 50 43521  ");
+                            sb.AppendLine("");
+                            sb.AppendLine("\U0001F534" + "دقت کنيد که اعداد باید به صورت انگلیسی وارد شود ");
+                            sb.AppendLine("");
+                            sb.AppendLine("با تشکر مديريت مجموعه  MP" + "\U0001F339");
 
                             bot.SendTextMessageAsync(chatId, sb.ToString());
                         }
@@ -147,7 +157,16 @@ namespace MpAdmin.Server
                                     catch (Exception e)
                                     {
                                         StringBuilder sb = new StringBuilder();
-                                        sb.AppendLine("لطفا تعداد رول مد نظر خود را به صورت عددی وارد کنید " + " " + "\U000026A0");
+                                        sb.AppendLine("\U000026AB" + "براي استعلام موجودي به اين صورت عمل کنيد  :");
+                                        sb.AppendLine("");
+                                        sb.AppendLine("\U0001F534" + "ابتدا کد کاغذ مورد نظر خود را نوشته  سپس يک فاصله قرار دهيد و بعد تعداد رول را وارد کنيد . ");
+                                        sb.AppendLine("");
+                                        sb.AppendLine("\U000026AB" + "مثال : 50 43521  ");
+                                        sb.AppendLine("");
+                                        sb.AppendLine("\U0001F534" + "دقت کنيد که اعداد باید به صورت انگلیسی وارد شود ");
+                                        sb.AppendLine("");
+                                        sb.AppendLine("\U000026AB" + "لطفا دقت کنید که تعداد رول را به صورت عددی وارد کنید ");
+                                        sb.AppendLine("با تشکر مديريت مجموعه  MP" + "\U0001F339");
                                         bot.SendTextMessageAsync(chatId, sb.ToString());
                                     }
                                 }
