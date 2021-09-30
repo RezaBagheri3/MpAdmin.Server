@@ -151,5 +151,51 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> InCreaseStock([FromBody] IncreaseStockModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                DAL.Entities.WallPaper item = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Id == model.id);
+
+                if (item != null)
+                {
+                    item.Stock += model.quantity;
+
+                    unitOfWork.WallPaperRepo.Update(item);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنین کاغذی در بانک یافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
