@@ -22,5 +22,9 @@ namespace MpAdmin.Server.DAL.Entities
 
         [Required]
         public int Stock { get; set; }
+
+        public int BuyPrice { get; set; }
+
+        public int TotalPrice { get; set; }
     }
 }

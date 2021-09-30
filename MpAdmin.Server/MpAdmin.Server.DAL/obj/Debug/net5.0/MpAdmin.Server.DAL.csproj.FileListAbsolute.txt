@@ -12,3 +12,4 @@ C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server.DAL\obj\Debu
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server.DAL\obj\Debug\net5.0\ref\MpAdmin.Server.DAL.dll
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server.DAL\obj\Debug\net5.0\MpAdmin.Server.DAL.pdb
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server.DAL\obj\Debug\net5.0\MpAdmin.Server.DAL.genruntimeconfig.cache
+C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server.DAL\obj\Debug\net5.0\MpAdmin.Server.DAL.csproj.AssemblyReference.cache
