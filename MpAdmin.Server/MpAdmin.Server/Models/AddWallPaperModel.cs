@@ -15,5 +15,7 @@ namespace MpAdmin.Server.Models
 
         public int stock { get; set; }
 
+        public int buyPrice { get; set; }
+
     }
 }
