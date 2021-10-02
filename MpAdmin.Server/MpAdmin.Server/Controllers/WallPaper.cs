@@ -245,5 +245,56 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> UpdateWallPaper([FromBody] UpdateWallPaperModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                DAL.Entities.WallPaper item = unitOfWork.WallPaperRepo.FirstOrDefault(r => r.Id == model.id);
+
+                if (item != null)
+                {
+                    item.Code = model.code;
+                    item.BatchNumber = model.batchNumber;
+                    item.Album = model.album;
+                    item.Stock = model.stock;
+                    item.BuyPrice = model.buyPrice;
+                    item.TotalPrice = model.stock * model.buyPrice;
+
+                    unitOfWork.WallPaperRepo.Update(item);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنین کد کاغذی در بانک یافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
