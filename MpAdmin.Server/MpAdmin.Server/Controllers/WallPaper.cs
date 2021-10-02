@@ -165,6 +165,7 @@ namespace MpAdmin.Server.Controllers
                 if (item != null)
                 {
                     item.Stock += model.quantity;
+                    item.TotalPrice = item.Stock * item.BuyPrice;
 
                     unitOfWork.WallPaperRepo.Update(item);
                     await unitOfWork.SaveAsync();
