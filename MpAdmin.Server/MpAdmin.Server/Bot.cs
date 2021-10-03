@@ -18,15 +18,13 @@ namespace MpAdmin.Server
     public class Bot
     {
         private MpAdminContext context = new MpAdminContext(new DbContextOptionsBuilder<MpAdminContext>().UseSqlServer("Data Source =.;Initial Catalog=MpAdmin_DB;User Id=sa;Password=1").Options);
-        private TelegramBotClient bot;
+        private TelegramBotClient bot = new TelegramBotClient("1919785864:AAGVm7IOAAaZekxYSgauTwIOk4bFRrvrskY");
         private ReplyKeyboardMarkup mainKeyboardMarkup;
 
 
 
         public void RunBot()
         {
-            bot = new TelegramBotClient("1919785864:AAGVm7IOAAaZekxYSgauTwIOk4bFRrvrskY");
-
             mainKeyboardMarkup = new ReplyKeyboardMarkup();
 
             KeyboardButton[] row1 =
