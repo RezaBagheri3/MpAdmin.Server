@@ -13,6 +13,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using System.Text;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types;
+using MpAdmin.Server.Models;
 
 namespace MpAdmin.Server.Controllers
 {
@@ -31,6 +32,33 @@ namespace MpAdmin.Server.Controllers
                 Bot bot = new Bot();
                 botThread = new Thread(new ThreadStart(bot.RunBot));
                 botThread.Start();
+
+                return Ok(
+                    new
+                    {
+                        result = 1
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> SendBotMessage([FromBody] BotSendMessageModel model)
+        {
+            try
+            {
+                Bot bot = new Bot();
+                bot.SendMessage(model.message);
 
                 return Ok(
                     new

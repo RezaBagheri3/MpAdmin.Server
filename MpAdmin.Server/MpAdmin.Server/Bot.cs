@@ -226,5 +226,20 @@ namespace MpAdmin.Server
                 }
             }
         }
+
+        public async void SendMessage(string TextMesasage)
+        {
+            UnitOfWork unitOfWork3 = new UnitOfWork(context);
+
+            var ChatIds = await unitOfWork3.BotChatRepo.GetAsync().Result.ToListAsync();
+
+            if (ChatIds.Count != 0)
+            {
+                foreach (var item in ChatIds)
+                {
+                    await bot.SendTextMessageAsync(item.ChatId, TextMesasage, ParseMode.Html);
+                }
+            }
+        }
     }
 }
