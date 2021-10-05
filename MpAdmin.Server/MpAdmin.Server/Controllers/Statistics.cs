@@ -92,14 +92,36 @@ namespace MpAdmin.Server.Controllers
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-                var totalWallPaperAlbumStock = await unitOfWork.WallPaperRepo.GetAsync(r => r.Album == model.album).Result.Select(p => p.Stock).SumAsync();
+                var CheckAlbumExist = unitOfWork.WallPaperRepo.FirstOrDefault(s => s.Album == model.album);
 
-                return Ok(
-                    new
-                    {
-                        totalWallPaperAlbumStock
-                    }
-                );
+                if (CheckAlbumExist != null)
+                {
+                    var wallPaperAlbumCodeCount = unitOfWork.WallPaperRepo.Get(f => f.Album == model.album).Count();
+
+                    var totalWallPaperAlbumStock = await unitOfWork.WallPaperRepo.GetAsync(r => r.Album == model.album).Result.Select(p => p.Stock).SumAsync();
+
+                    var totalWallPaperAlbumPrice = await unitOfWork.WallPaperRepo.GetAsync(c => c.Album == model.album).Result.Select(g => g.TotalPrice).SumAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            totalWallPaperAlbumStock,
+                            wallPaperAlbumCodeCount,
+                            totalWallPaperAlbumPrice
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "کاغذی با نام آلبوم وارد شده یافت نشد ."
+                        }
+                    );
+                }
             }
             catch (Exception e)
             {
