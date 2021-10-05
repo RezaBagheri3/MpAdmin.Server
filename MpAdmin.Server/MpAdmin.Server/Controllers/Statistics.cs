@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.Domain;
+using MpAdmin.Server.Models;
 
 namespace MpAdmin.Server.Controllers
 {
@@ -69,6 +70,34 @@ namespace MpAdmin.Server.Controllers
                     new
                     {
                         botUserCount
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> WallPaperAlbumStatistics([FromBody] WallPaperAlbumStatisticsModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var totalWallPaperAlbumStock = await unitOfWork.WallPaperRepo.GetAsync(r => r.Album == model.album).Result.Select(p => p.Stock).SumAsync();
+
+                return Ok(
+                    new
+                    {
+                        totalWallPaperAlbumStock
                     }
                 );
             }
