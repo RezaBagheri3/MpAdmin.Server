@@ -18,7 +18,7 @@ namespace MpAdmin.Server
     public class Bot
     {
         private MpAdminContext context = new MpAdminContext(new DbContextOptionsBuilder<MpAdminContext>().UseSqlServer("Data Source =.;Initial Catalog=MpAdmin_DB;User Id=sa;Password=1").Options);
-        private TelegramBotClient bot = new TelegramBotClient("1919785864:AAGVm7IOAAaZekxYSgauTwIOk4bFRrvrskY");
+        private TelegramBotClient bot = new TelegramBotClient("2079931665:AAH3iHwzWlWAuQ0qdCCSV0JePN0aCDKF7oU");
         private ReplyKeyboardMarkup mainKeyboardMarkup;
 
 
