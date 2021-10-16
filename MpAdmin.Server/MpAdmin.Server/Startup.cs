@@ -28,13 +28,6 @@ namespace MpAdmin.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MpAdmin.Server", Version = "v1" });
-            });
-
             services.AddCors(options =>
             {
                 //options.AddPolicy("AllowOrigin", builder => builder.AllowAnyOrigin());
@@ -47,8 +40,14 @@ namespace MpAdmin.Server
                 );
             });
 
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MpAdmin.Server", Version = "v1" });
+            });
+
             services.AddDbContext<MpAdminContext>(options =>
-                { options.UseSqlServer("Data Source =.;Initial Catalog=MpAdmin_DB;User Id=sa;Password=1"); }
+                { options.UseSqlServer(Configuration.GetConnectionString("MpAdminConnection")); }
             );
         }
 

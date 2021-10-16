@@ -76,6 +76,11 @@ namespace MpAdmin.Server.Domain
             }
         }
 
+        public void DisposeDB()
+        {
+            DbContext.Dispose();
+        }
+
         #endregion
 
     }

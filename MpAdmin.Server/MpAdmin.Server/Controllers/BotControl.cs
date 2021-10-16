@@ -25,7 +25,7 @@ namespace MpAdmin.Server.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<int>> StartBot()
+        public ActionResult<int> StartBot()
         {
             try
             {
@@ -57,8 +57,8 @@ namespace MpAdmin.Server.Controllers
         {
             try
             {
-                Bot bot = new Bot();
-                bot.SendMessage(model.message);
+                //Bot bot = new Bot();
+                //bot.SendMessage(model.message);
 
                 return Ok(
                     new
