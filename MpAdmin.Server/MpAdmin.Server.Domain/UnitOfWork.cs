@@ -30,6 +30,15 @@ namespace MpAdmin.Server.Domain
         private TelegramUserRepo _telegramUserRepo;
         public TelegramUserRepo TelegramUserRepo => _telegramUserRepo ??= new TelegramUserRepo(DbContext);
 
+        private CustomerRepo _customerRepo;
+        public CustomerRepo CustomerRepo => _customerRepo ??= new CustomerRepo(DbContext);
+
+        private FactorWallPaperRepo _factorWallPaperRepo;
+        public FactorWallPaperRepo FactorWallPaperRepo => _factorWallPaperRepo ??= new FactorWallPaperRepo(DbContext);
+
+        private FactorRepo _factorRepo;
+        public FactorRepo FactorRepo => _factorRepo ??= new FactorRepo(DbContext);
+
         #region Methods
 
         public void Commit()
