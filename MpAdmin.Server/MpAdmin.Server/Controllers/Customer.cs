@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
+using MpAdmin.Server.DAL.Enums;
 using MpAdmin.Server.Domain;
+using MpAdmin.Server.Models;
 
 namespace MpAdmin.Server.Controllers
 {
@@ -48,6 +50,95 @@ namespace MpAdmin.Server.Controllers
                         {
                             result = 2,
                             message = "هيچ مشتري در بانک ثبت نشده است ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> AddCustomer([FromBody] AddCustomerModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                DAL.Entities.Customer item = new DAL.Entities.Customer()
+                {
+                    FullName = model.fullName,
+                    PhoneNumber = model.phoneNumber,
+                    Address = model.address
+                };
+
+                if (model.customerType == 1)
+                {
+                    item.CustomerType = CustomerType.Customer;
+                }
+                else
+                {
+                    item.CustomerType = CustomerType.Store;
+                }
+
+                unitOfWork.CustomerRepo.Create(item);
+                await unitOfWork.SaveAsync();
+
+                return Ok(
+                    new
+                    {
+                        result = 1
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> DeleteCustomer([FromBody] DeleteCustomerModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var item = unitOfWork.CustomerRepo.FirstOrDefault(r => r.Id == model.id);
+
+                if (item != null)
+                {
+                    await unitOfWork.CustomerRepo.DeleteAsync(item);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنين مشتري اي در بانک وجود ندارد ."
                         }
                     );
                 }
