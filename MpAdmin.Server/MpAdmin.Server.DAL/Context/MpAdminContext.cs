@@ -25,6 +25,12 @@ namespace MpAdmin.Server.DAL.Context
 
         public DbSet<TelegramUser> TelegramUsers { get; set; }
 
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<FactorWallPaper> FactorWallPapers { get; set; }
+
+        public DbSet<Factor> Factors { get; set; }
+
         #endregion
     }
 }
