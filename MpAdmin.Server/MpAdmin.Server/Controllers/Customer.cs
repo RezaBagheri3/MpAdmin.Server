@@ -153,5 +153,62 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> UpdateCustomer([FromBody] CustomerUpdateModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                DAL.Entities.Customer item = unitOfWork.CustomerRepo.FirstOrDefault(r => r.Id == model.id);
+
+                if (item != null)
+                {
+                    item.FullName = model.fullName;
+                    item.PhoneNumber = model.phoneNumber;
+                    item.Address = model.address;
+
+                    if (model.customerType == 1)
+                    {
+                        item.CustomerType = CustomerType.Customer;
+                    }
+                    else
+                    {
+                        item.CustomerType = CustomerType.Store;
+                    }
+
+                    unitOfWork.CustomerRepo.Update(item);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنين مشتري اي در بانک يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
