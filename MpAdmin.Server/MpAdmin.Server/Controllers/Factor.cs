@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.DAL.Entities;
 using MpAdmin.Server.DAL.Enums;
@@ -48,7 +49,7 @@ namespace MpAdmin.Server.Controllers
                 unitOfWork.FactorRepo.Create(FactorItem);
                 await unitOfWork.SaveAsync();
 
-                int FactorId = unitOfWork.FactorRepo.Get().OrderBy(r=>r.Id).LastOrDefault().Id;
+                int FactorId = unitOfWork.FactorRepo.Get().OrderBy(r => r.Id).LastOrDefault().Id;
 
                 foreach (var factorWallPaper in model.factorWallPapers)
                 {
@@ -77,6 +78,48 @@ namespace MpAdmin.Server.Controllers
             catch (Exception e)
             {
                 return Ok(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<List<DAL.Entities.Factor>>> GetNotFinalizedFactor()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                List<DAL.Entities.Factor> Factors = unitOfWork.FactorRepo.Get(r => r.Final == Final.NotFinalized).ToList();
+
+                if (Factors.Count == 0)
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "هیچ فاکتور نهایی نشده ای موجود نمی باشد ."
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            Factors
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
                     new
                     {
                         e
