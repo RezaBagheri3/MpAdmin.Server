@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.DAL.Entities;
 using MpAdmin.Server.DAL.Enums;
+using MpAdmin.Server.DateTimeExtensions;
 using MpAdmin.Server.Domain;
 using MpAdmin.Server.Models;
 
@@ -93,8 +94,9 @@ namespace MpAdmin.Server.Controllers
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
+                List<GetFactorModel> factorModels = new List<GetFactorModel>();
 
-                List<DAL.Entities.Factor> Factors = unitOfWork.FactorRepo.Get(r => r.Final == Final.NotFinalized).ToList();
+                List<DAL.Entities.Factor> Factors = await unitOfWork.FactorRepo.GetAsync(r => r.Final == Final.NotFinalized).Result.ToListAsync();
 
                 if (Factors.Count == 0)
                 {
@@ -108,11 +110,30 @@ namespace MpAdmin.Server.Controllers
                 }
                 else
                 {
+                    foreach (var item in Factors)
+                    {
+                        GetFactorModel model = new GetFactorModel()
+                        {
+                            id = item.Id,
+                            customerId = item.CustomerId,
+                            customerName = item.CustomerName,
+                            customerType = (int)item.CustomerType,
+                            dateTime = item.DateTime.ToPersianDate(),
+                            discount = item.Discount,
+                            totalQuantity = item.TotalQuantity,
+                            totalAmount = item.TotalAmount,
+                            totalProfit = item.TotalProfit,
+                            final = (int)item.Final,
+                            payableAmount = item.PayableAmount
+                        };
+                        factorModels.Add(model);
+                    }
+
                     return Ok(
                         new
                         {
                             result = 1,
-                            Factors
+                            factorModels
                         }
                     );
                 }
