@@ -57,6 +57,7 @@ namespace MpAdmin.Server.Controllers
                     FactorWallPaper WallPaperItem = new FactorWallPaper()
                     {
                         WallPaperCode = factorWallPaper.wallPaperCode,
+                        BatchNumber = factorWallPaper.batchNumber,
                         Quantity = factorWallPaper.quantity,
                         BuyPrice = factorWallPaper.buyPrice,
                         SalePrice = factorWallPaper.salePrice,
@@ -145,6 +146,77 @@ namespace MpAdmin.Server.Controllers
             catch (Exception e)
             {
                 return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> FinalizedFactor([FromBody] FinalFactorModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                DAL.Entities.Factor Factor = unitOfWork.FactorRepo.SingleOrDefault(r => r.Id == model.id);
+
+                if (model.final == 1)
+                {
+                    Factor.Final = Final.Finalized;
+
+                    unitOfWork.FactorRepo.Update(Factor);
+                    await unitOfWork.SaveAsync();
+
+                    List<FactorWallPaper> FactorWallPapers = await unitOfWork.FactorWallPaperRepo.GetAsync(p => p.FactorId == model.id).Result.ToListAsync();
+
+                    foreach (var item in FactorWallPapers)
+                    {
+                        if (item.BatchNumber == "")
+                        {
+                            DAL.Entities.WallPaper WallPaper = unitOfWork.WallPaperRepo.SingleOrDefault(c => c.Code == item.WallPaperCode);
+                            WallPaper.Stock -= item.Quantity;
+
+                            unitOfWork.WallPaperRepo.Update(WallPaper);
+                            await unitOfWork.SaveAsync();
+                        }
+                        else
+                        {
+                            DAL.Entities.WallPaper WallPaper = unitOfWork.WallPaperRepo.SingleOrDefault(c => c.Code == item.WallPaperCode && c.BatchNumber == item.BatchNumber);
+                            WallPaper.Stock -= item.Quantity;
+
+                            unitOfWork.WallPaperRepo.Update(WallPaper);
+                            await unitOfWork.SaveAsync();
+                        }
+                    }
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            message = "فاکتور مدنظر با موفقیت ثبت نهایی گردید ."
+                        }
+                    );
+                }
+                else
+                {
+                    await unitOfWork.FactorRepo.DeleteAsync(Factor);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "فاکتور مدنظر با موفقیت حذف شد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return Ok(
                     new
                     {
                         e

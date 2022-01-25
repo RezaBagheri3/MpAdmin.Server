@@ -17,6 +17,8 @@ namespace MpAdmin.Server.DAL.Entities
         [Required]
         public string WallPaperCode { get; set; }
 
+        public string BatchNumber { get; set; }
+
         [Required]
         public int Quantity { get; set; }
 

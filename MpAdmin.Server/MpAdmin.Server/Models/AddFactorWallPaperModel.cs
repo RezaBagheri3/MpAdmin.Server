@@ -9,6 +9,8 @@ namespace MpAdmin.Server.Models
     {
         public string wallPaperCode { get; set; }
 
+        public string batchNumber { get; set; }
+
         public int quantity { get; set; }
 
         public int buyPrice { get; set; }
