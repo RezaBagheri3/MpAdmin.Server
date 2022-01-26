@@ -216,7 +216,73 @@ namespace MpAdmin.Server.Controllers
             }
             catch (Exception e)
             {
-                return Ok(
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<List<DAL.Entities.Factor>>> GetFinalizedFactor()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var Factors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized).OrderByDescending(d => d).Take(100).Select(p => new
+                {
+                    p.Id,
+                    p.CustomerName,
+                    p.CustomerType,
+                    DateTime = p.DateTime.ToPersianDate(),
+                    p.Final,
+                    p.TotalAmount,
+                    p.Discount,
+                    p.PayableAmount,
+                    p.TotalQuantity,
+                    p.TotalProfit,
+                    p.CustomerId,
+                    factorWallPapers = p.FactorWallPapers.Select(t => new
+                    {
+                        t.Id,
+                        t.WallPaperCode,
+                        t.Quantity,
+                        t.BuyPrice,
+                        t.SalePrice,
+                        t.Profit,
+                        t.TotalPrice,
+                        t.FactorId
+                    })
+                });
+
+                if (Factors.Count() > 0)
+                {
+                    return Ok(
+                        new
+                        {
+                            Result = 1,
+                            Factors
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "هیچ فاکتور نهایی شده ای یافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
                     new
                     {
                         e
