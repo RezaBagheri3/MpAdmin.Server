@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
+using MpAdmin.Server.DAL.Enums;
 using MpAdmin.Server.Domain;
 using MpAdmin.Server.Models;
 using MpAdmin.Server.DateTimeExtensions;
@@ -44,6 +45,44 @@ namespace MpAdmin.Server.Controllers
                         LastMonthTotalQuantity = LastMonthFactors.Sum(f => f.TotalQuantity),
                         TotalFactor = Factors.Count,
                         TotalQuantity = Factors.Sum(d => d.TotalQuantity)
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<List<CustomersActivityModel>>> CustomersActivity()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var CustomersByFactor = unitOfWork.CustomerRepo.Get(c => c.CustomerType == CustomerType.Customer).OrderByDescending(r => r.Factors.Where(g => g.Final == Final.Finalized).Count()).Select(p => new
+                {
+                    customerName = p.FullName,
+                    count = p.Factors.Where(g => g.Final == Final.Finalized).Count()
+                }).ToList();
+                var CustomersByQuantity = unitOfWork.CustomerRepo.Get(c => c.CustomerType == CustomerType.Customer).OrderByDescending(r => r.Factors.Where(g => g.Final == Final.Finalized).Select(p => p.TotalQuantity).Sum()).Select(p => new
+                {
+                    customerName = p.FullName,
+                    quantity = p.Factors.Where(g => g.Final == Final.Finalized).Select(p => p.TotalQuantity).Sum()
+                }).ToList();
+
+                return Ok(
+                    new
+                    {
+                        CustomersByFactor,
+                        CustomersByQuantity
                     }
                 );
             }
