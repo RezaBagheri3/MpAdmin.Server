@@ -337,7 +337,7 @@ namespace MpAdmin.Server.Controllers
             }
             catch (Exception e)
             {
-                return Ok(
+                return BadRequest(
                     new
                     {
                         e
