@@ -19,7 +19,6 @@ C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\ne
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\MpAdmin.Server.MvcApplicationPartsAssemblyInfo.cs
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\MpAdmin.Server.MvcApplicationPartsAssemblyInfo.cache
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\staticwebassets\MpAdmin.Server.StaticWebAssets.Manifest.cache
-C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\staticwebassets\MpAdmin.Server.StaticWebAssets.xml
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\scopedcss\bundle\MpAdmin.Server.styles.css
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\MpAdmin.Server.RazorTargetAssemblyInfo.cache
 C:\ProgrammingProjects\MpAdmin.Server\MpAdmin.Server\MpAdmin.Server\obj\Debug\net5.0\MpAdmin.Server.csproj.CopyComplete

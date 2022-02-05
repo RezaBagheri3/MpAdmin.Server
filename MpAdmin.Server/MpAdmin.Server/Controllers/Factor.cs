@@ -290,5 +290,60 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<DAL.Entities.Factor>> GetFactorById([FromBody] GetFactorByIdModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var Factors = unitOfWork.FactorRepo.Get(r => r.Id == model.id).Select(p => new
+                {
+                    p.Id,
+                    p.CustomerName,
+                    p.CustomerType,
+                    DateTime = p.DateTime.ToPersianDate(),
+                    p.Final,
+                    p.TotalAmount,
+                    p.PayableAmount,
+                    p.TotalQuantity,
+                    p.TotalProfit,
+                    p.Discount,
+                    p.FactorWallPapers
+                });
+
+                if (Factors.Count() != 0)
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            Factor = Factors.First()
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "فاکتور با چنين شناسه اي يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return Ok(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
