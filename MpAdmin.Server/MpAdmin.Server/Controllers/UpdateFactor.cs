@@ -136,5 +136,95 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> UpdateWallPaperOfFactor([FromBody] UpdateWallPaperOfFactorModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                FactorWallPaper FactorWall = unitOfWork.FactorWallPaperRepo.FirstOrDefault(r => r.Id == model.id);
+                if (FactorWall != null)
+                {
+                    DAL.Entities.Factor Factor = unitOfWork.FactorRepo.FirstOrDefault(p => p.Id == FactorWall.FactorId);
+                    int NewTotalPrice = model.quantity * model.salePrice;
+                    int NewProfit = (model.salePrice - FactorWall.BuyPrice) * model.quantity;
+
+                    if (FactorWall.Quantity < model.quantity)
+                    {
+                        int RemainQuantity = model.quantity - FactorWall.Quantity;
+                        Factor.TotalQuantity += RemainQuantity;
+                    }
+                    else if (FactorWall.Quantity > model.quantity)
+                    {
+                        int RemainQuantity = FactorWall.Quantity - model.quantity;
+                        Factor.TotalQuantity -= RemainQuantity;
+                    }
+
+                    if (FactorWall.Profit < NewProfit)
+                    {
+                        int RemainProfit = NewProfit - FactorWall.Profit;
+                        Factor.TotalProfit += RemainProfit;
+                    }
+                    else if (FactorWall.Profit > NewProfit)
+                    {
+                        int RemainProfit = FactorWall.Profit - NewProfit;
+                        Factor.TotalProfit -= RemainProfit;
+                    }
+
+                    if (FactorWall.TotalPrice < NewTotalPrice)
+                    {
+                        int RemainPrice = NewTotalPrice - FactorWall.TotalPrice;
+                        Factor.TotalAmount += RemainPrice;
+                        Factor.PayableAmount += RemainPrice;
+                    }
+                    else if (FactorWall.TotalPrice > NewTotalPrice)
+                    {
+                        int RemainPrice = FactorWall.TotalPrice - NewTotalPrice;
+                        Factor.TotalAmount -= RemainPrice;
+                        Factor.PayableAmount -= RemainPrice;
+                    }
+
+                    unitOfWork.FactorRepo.Update(Factor);
+                    await unitOfWork.SaveAsync();
+
+                    FactorWall.Quantity = model.quantity;
+                    FactorWall.TotalPrice = NewTotalPrice;
+                    FactorWall.Profit = NewProfit;
+                    FactorWall.SalePrice = model.salePrice;
+
+                    unitOfWork.FactorWallPaperRepo.Update(FactorWall);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            message = "اطلاعات کاغذ با موفقيت ويرايش شد ."
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنين کاغذي براي ويرايش يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
