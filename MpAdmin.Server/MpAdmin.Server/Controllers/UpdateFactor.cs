@@ -83,5 +83,58 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> DeleteWallPaperFromFactor([FromBody] DeleteWallPaperFromFactorModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                FactorWallPaper WallPaper = unitOfWork.FactorWallPaperRepo.FirstOrDefault(p => p.Id == model.wallId);
+                if (WallPaper != null)
+                {
+                    DAL.Entities.Factor factor = unitOfWork.FactorRepo.FirstOrDefault(r => r.Id == WallPaper.FactorId);
+
+                    factor.TotalAmount -= WallPaper.TotalPrice;
+                    factor.TotalQuantity -= WallPaper.Quantity;
+                    factor.TotalProfit -= WallPaper.Profit;
+                    factor.PayableAmount -= WallPaper.TotalPrice;
+                    unitOfWork.FactorRepo.Update(factor);
+                    await unitOfWork.SaveAsync();
+
+                    await unitOfWork.FactorWallPaperRepo.DeleteAsync(WallPaper);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            message = "حذف کاغذ از فاکتور با موفقيت انجام شد ."
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "چنين کاغذي براي حذف از فاکتور يافت نشد ."
+                        }
+                    );
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
