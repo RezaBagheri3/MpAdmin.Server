@@ -226,5 +226,60 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> EditDiscountOfFactor([FromBody] EditDiscountOfFactorModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                DAL.Entities.Factor Factor = unitOfWork.FactorRepo.FirstOrDefault(p => p.Id == model.factorId);
+                if (Factor != null)
+                {
+                    if (Factor.Discount < model.discount)
+                    {
+                        int RemainDiscount = model.discount - Factor.Discount;
+                        Factor.PayableAmount -= RemainDiscount;
+                    }
+                    else if (Factor.Discount > model.discount)
+                    {
+                        int RemainDiscount = Factor.Discount - model.discount;
+                        Factor.PayableAmount += RemainDiscount;
+                    }
+
+                    Factor.Discount = model.discount;
+                    unitOfWork.FactorRepo.Update(Factor);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            message = "تخفيف با موفقيت اصلاح شد ."
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "فاکتوري براي اصلاح تخفيف يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
