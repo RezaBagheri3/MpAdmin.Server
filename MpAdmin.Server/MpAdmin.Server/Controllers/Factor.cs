@@ -345,5 +345,81 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<List<DAL.Entities.Factor>>> GetFactorByDate([FromBody] GetFactorByDateModel model)
+        {
+            try
+            {
+                string filterDate;
+                if (model.status == 1)
+                {
+                    filterDate = DateTime.Now.ToPersianDate();
+                }
+                else
+                {
+                    filterDate = model.dateTime;
+                }
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                var AllFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized).OrderByDescending(d => d).Select(p => new
+                {
+                    p.Id,
+                    p.CustomerName,
+                    p.CustomerType,
+                    dateTime = p.DateTime.ToPersianDate(),
+                    p.Final,
+                    p.TotalAmount,
+                    p.Discount,
+                    p.PayableAmount,
+                    p.TotalQuantity,
+                    p.TotalProfit,
+                    p.CustomerId,
+                    factorWallPapers = p.FactorWallPapers.Select(t => new
+                    {
+                        t.Id,
+                        t.WallPaperCode,
+                        t.Quantity,
+                        t.BuyPrice,
+                        t.SalePrice,
+                        t.Profit,
+                        t.TotalPrice,
+                        t.FactorId
+                    })
+                }).ToListAsync();
+
+                var Factors = AllFactors.Result.Where(c => c.dateTime == filterDate);
+
+                if (Factors.Count() > 0)
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            Factors
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "هيچ فاکتوري با تاريخ مدنظر شما يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }

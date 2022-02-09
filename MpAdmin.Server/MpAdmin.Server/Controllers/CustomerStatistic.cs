@@ -33,7 +33,7 @@ namespace MpAdmin.Server.Controllers
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 PersianCalendar pc = new PersianCalendar();
-                var PersianMonth = pc.GetMonth(DateTime.Now);
+                var PersianMonth = DateTime.Now.GetPersianMonth();
 
                 List<DAL.Entities.Factor> Factors = await unitOfWork.FactorRepo.GetAsync(r => r.CustomerId == model.id && r.Final == Final.Finalized).Result.ToListAsync();
                 List<DAL.Entities.Factor> LastMonthFactors = Factors.Where(p => p.DateTime.GetPersianMonth() == PersianMonth).ToList();

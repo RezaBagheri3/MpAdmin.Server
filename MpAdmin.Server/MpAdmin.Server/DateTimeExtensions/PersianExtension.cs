@@ -11,7 +11,7 @@ namespace MpAdmin.Server.DateTimeExtensions
         public static string ToPersianDate(this DateTime input)
         {
             var Calender = new PersianCalendar();
-            return Calender.GetYear(input) + "/" + Calender.GetMonth(input) + "/" + Calender.GetDayOfMonth(input);
+            return Calender.GetYear(input) + "/" + Calender.GetMonth(input) + "/" + Calender.GetDayOfMonth(input).ToString("00");
         }
 
         public static int GetPersianMonth(this DateTime date)
