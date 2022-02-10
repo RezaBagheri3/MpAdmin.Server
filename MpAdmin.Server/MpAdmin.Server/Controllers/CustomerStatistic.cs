@@ -81,8 +81,12 @@ namespace MpAdmin.Server.Controllers
                 return Ok(
                     new
                     {
-                        CustomersByFactor,
-                        CustomersByQuantity
+                        MaxCustomersByFactor = CustomersByFactor.Take(10),
+                        MinCustomersByFactor = CustomersByFactor.OrderBy(r => r.count).Take(10),
+                        MaxCustomersByQuantity = CustomersByQuantity.Take(10),
+                        MinCustomersByQuantity = CustomersByQuantity.OrderBy(p => p.quantity).Take(10),
+                        FullCustomersByFactor = CustomersByFactor,
+                        FullCustomersByQuantity = CustomersByQuantity
                     }
                 );
             }
