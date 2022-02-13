@@ -53,5 +53,50 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> GeneralFactorStatistics()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                var CustomerFactorsCount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Count();
+                var StoreFactorsCount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Count();
+
+                var CustomerTotalQuantity = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Select(p => p.TotalQuantity).Sum();
+                var StoreTotalQuantity = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Select(p => p.TotalQuantity).Sum();
+
+                var CustomerPayableAmount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Select(p => p.PayableAmount).Sum();
+                var StorePayableAmount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Select(p => p.PayableAmount).Sum();
+
+                var CustomerTotalProfit = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Select(p => p.TotalProfit).Sum();
+                var StoreTotalProfit = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Select(p => p.TotalProfit).Sum();
+
+                return Ok(
+                    new
+                    {
+                        CustomerFactorsCount,
+                        StoreFactorsCount,
+                        CustomerTotalQuantity,
+                        StoreTotalQuantity,
+                        CustomerPayableAmount,
+                        StorePayableAmount,
+                        CustomerTotalProfit,
+                        StoreTotalProfit
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
