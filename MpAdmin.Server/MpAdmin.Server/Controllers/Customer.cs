@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.DAL.Enums;
+using MpAdmin.Server.DateTimeExtensions;
 using MpAdmin.Server.Domain;
 using MpAdmin.Server.Models;
 
@@ -196,6 +197,74 @@ namespace MpAdmin.Server.Controllers
                         {
                             result = 2,
                             message = "چنين مشتري اي در بانک يافت نشد ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<List<DAL.Entities.Factor>>> GetFactorsByCustomerId([FromBody] GetFactorsByCustomerModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                DAL.Entities.Customer customer = unitOfWork.CustomerRepo.FirstOrDefault(r => r.Id == model.id);
+
+                var Factors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerId == model.id).OrderByDescending(d => d).Select(p => new
+                {
+                    p.Id,
+                    p.CustomerName,
+                    p.CustomerType,
+                    DateTime = p.DateTime.ToPersianDate(),
+                    p.Final,
+                    p.TotalAmount,
+                    p.Discount,
+                    p.PayableAmount,
+                    p.TotalQuantity,
+                    p.TotalProfit,
+                    p.CustomerId,
+                    factorWallPapers = p.FactorWallPapers.Select(t => new
+                    {
+                        t.Id,
+                        t.WallPaperCode,
+                        t.Quantity,
+                        t.BuyPrice,
+                        t.SalePrice,
+                        t.Profit,
+                        t.TotalPrice,
+                        t.FactorId
+                    })
+                });
+
+                if (Factors.Count() > 0 && customer != null)
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            customer,
+                            Factors
+                        }
+                    );
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "هيچ فاکتوري براي مشتري مدنظر يافت نشد ."
                         }
                     );
                 }
