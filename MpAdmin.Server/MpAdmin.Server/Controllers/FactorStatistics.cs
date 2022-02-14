@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MpAdmin.Server.DAL.Context;
 using MpAdmin.Server.DAL.Enums;
+using MpAdmin.Server.DateTimeExtensions;
 using MpAdmin.Server.Domain;
+using MpAdmin.Server.Models;
 
 namespace MpAdmin.Server.Controllers
 {
@@ -85,6 +87,49 @@ namespace MpAdmin.Server.Controllers
                         StorePayableAmount,
                         CustomerTotalProfit,
                         StoreTotalProfit
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<ActionResult<List<FactorStatisticByMonthModel>>> FactorsStatisticsByMonth()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+                List<DAL.Entities.Factor> CustomerFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).ToList();
+                List<DAL.Entities.Factor> StoreFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).ToList();
+
+                List<FactorStatisticByMonthModel> StatisticByMonth = new List<FactorStatisticByMonthModel>();
+                for (int i = 1; i <= 12; i++)
+                {
+                    FactorStatisticByMonthModel model = new FactorStatisticByMonthModel();
+                    model.CustomerFactorsCount = CustomerFactors.Where(r => r.DateTime.GetPersianMonth() == i).Count();
+                    model.StoreFactorsCount = StoreFactors.Where(r => r.DateTime.GetPersianMonth() == i).Count();
+                    model.CustomerTotalQuantity = CustomerFactors.Where(r => r.DateTime.GetPersianMonth() == i).Select(p => p.TotalQuantity).Sum();
+                    model.StoreTotalQuantity = StoreFactors.Where(r => r.DateTime.GetPersianMonth() == i).Select(p => p.TotalQuantity).Sum();
+                    model.CustomerTotalProfit = CustomerFactors.Where(r => r.DateTime.GetPersianMonth() == i).Select(p => p.TotalProfit).Sum();
+                    model.StoreTotalProfit = StoreFactors.Where(r => r.DateTime.GetPersianMonth() == i).Select(p => p.TotalProfit).Sum();
+
+                    StatisticByMonth.Add(model);
+                }
+
+                return Ok(
+                    new
+                    {
+                        StatisticByMonth
                     }
                 );
             }
