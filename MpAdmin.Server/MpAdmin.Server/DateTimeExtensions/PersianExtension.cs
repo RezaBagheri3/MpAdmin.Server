@@ -19,5 +19,11 @@ namespace MpAdmin.Server.DateTimeExtensions
             var Calender = new PersianCalendar();
             return Calender.GetMonth(date);
         }
+
+        public static int GetPersianYear(this DateTime date)
+        {
+            var Calender = new PersianCalendar();
+            return Calender.GetYear(date);
+        }
     }
 }

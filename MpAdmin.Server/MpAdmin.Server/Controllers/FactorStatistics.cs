@@ -109,8 +109,12 @@ namespace MpAdmin.Server.Controllers
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
 
+                int Year = DateTime.Now.GetPersianYear();
                 List<DAL.Entities.Factor> CustomerFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).ToList();
                 List<DAL.Entities.Factor> StoreFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).ToList();
+
+                CustomerFactors = CustomerFactors.Where(r => r.DateTime.GetPersianYear() == Year).ToList();
+                StoreFactors = StoreFactors.Where(r => r.DateTime.GetPersianYear() == Year).ToList();
 
                 List<FactorStatisticByMonthModel> StatisticByMonth = new List<FactorStatisticByMonthModel>();
                 for (int i = 1; i <= 12; i++)
