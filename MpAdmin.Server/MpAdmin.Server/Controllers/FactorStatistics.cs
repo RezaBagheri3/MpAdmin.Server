@@ -56,25 +56,37 @@ namespace MpAdmin.Server.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<int>> GeneralFactorStatistics()
+        public async Task<ActionResult<int>> GeneralFactorStatistics([FromBody] GeneralFactorStatisticModel model)
         {
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
+                List<DAL.Entities.Factor> CustomerFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).ToList();
+                List<DAL.Entities.Factor> StoreFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).ToList();
 
-                var CustomerFactorsCount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Count();
-                var StoreFactorsCount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Count();
+                var Year = 0;
+                if (model.Status == 1)
+                {
+                    Year = DateTime.Now.GetPersianYear();
+                }
+                else
+                {
+                    Year = model.Year;
+                }
 
-                var CustomerTotalQuantity = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Select(p => p.TotalQuantity).Sum();
-                var StoreTotalQuantity = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Select(p => p.TotalQuantity).Sum();
+                var CustomerFactorsCount = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Count();
+                var StoreFactorsCount = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Count();
 
-                var CustomerPayableAmount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Select(p => p.PayableAmount).Sum();
-                var StorePayableAmount = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Select(p => p.PayableAmount).Sum();
+                var CustomerTotalQuantity = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalQuantity).Sum();
+                var StoreTotalQuantity = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalQuantity).Sum();
 
-                var CustomerTotalProfit = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).Select(p => p.TotalProfit).Sum();
-                var StoreTotalProfit = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).Select(p => p.TotalProfit).Sum();
+                var CustomerPayableAmount = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.PayableAmount).Sum();
+                var StorePayableAmount = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.PayableAmount).Sum();
+
+                var CustomerTotalProfit = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalProfit).Sum();
+                var StoreTotalProfit = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalProfit).Sum();
 
                 return Ok(
                     new
