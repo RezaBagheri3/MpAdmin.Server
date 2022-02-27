@@ -124,11 +124,17 @@ namespace MpAdmin.Server.Controllers
                 int Year = DateTime.Now.GetPersianYear();
                 List<DAL.Entities.Factor> CustomerFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Customer).ToList();
                 List<DAL.Entities.Factor> StoreFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized && r.CustomerType == CustomerType.Store).ToList();
+                List<DAL.Entities.Factor> AllFactors = unitOfWork.FactorRepo.Get(r => r.Final == Final.Finalized).ToList();
+
+
 
                 CustomerFactors = CustomerFactors.Where(r => r.DateTime.GetPersianYear() == Year).ToList();
                 StoreFactors = StoreFactors.Where(r => r.DateTime.GetPersianYear() == Year).ToList();
+                AllFactors = AllFactors.Where(r => r.DateTime.GetPersianYear() == Year).ToList();
 
                 List<FactorStatisticByMonthModel> StatisticByMonth = new List<FactorStatisticByMonthModel>();
+                List<int> ChartStatisticByFactorCount = new List<int>();
+                List<int> ChartStatisticByTotalQuantity = new List<int>();
                 for (int i = 1; i <= 12; i++)
                 {
                     FactorStatisticByMonthModel model = new FactorStatisticByMonthModel();
@@ -140,12 +146,19 @@ namespace MpAdmin.Server.Controllers
                     model.StoreTotalProfit = StoreFactors.Where(r => r.DateTime.GetPersianMonth() == i).Select(p => p.TotalProfit).Sum();
 
                     StatisticByMonth.Add(model);
+
+                    int MonthStatisticByFactorCount = AllFactors.Where(r => r.DateTime.GetPersianMonth() == i).Count();
+                    ChartStatisticByFactorCount.Add(MonthStatisticByFactorCount);
+                    int MonthStatisticByTotalQuantity = AllFactors.Where(r => r.DateTime.GetPersianMonth() == i).Select(p => p.TotalQuantity).Sum();
+                    ChartStatisticByTotalQuantity.Add(MonthStatisticByTotalQuantity);
                 }
 
                 return Ok(
                     new
                     {
-                        StatisticByMonth
+                        StatisticByMonth,
+                        ChartStatisticByFactorCount,
+                        ChartStatisticByTotalQuantity
                     }
                 );
             }
