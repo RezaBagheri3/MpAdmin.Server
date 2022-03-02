@@ -61,5 +61,50 @@ namespace MpAdmin.Server.Controllers
                 );
             }
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult<int>> ChangeUserPassword([FromBody] ChangePasswordModel model)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                DAL.Entities.User User = await unitOfWork.UserRepo.FirstOrDefaultAsync(r => r.UserName == model.userName);
+
+                if (User == null)
+                {
+                    return Ok(
+                        new
+                        {
+                            result = 2,
+                            message = "کاربری با چنین نام کاربری یافت نشد ."
+                        }
+                    );
+                }
+                else
+                {
+                    User.Password = model.password;
+                    unitOfWork.UserRepo.Update(User);
+                    await unitOfWork.SaveAsync();
+
+                    return Ok(
+                        new
+                        {
+                            result = 1,
+                            message = "رمز عبور با موفقیت تغییر یافت ."
+                        }
+                    );
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(
+                    new
+                    {
+                        e
+                    }
+                );
+            }
+        }
     }
 }
