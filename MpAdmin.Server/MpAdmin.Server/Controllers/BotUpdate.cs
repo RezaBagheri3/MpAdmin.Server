@@ -11,6 +11,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using MpAdmin.Server.DAL.Entities;
+using MpAdmin.Server.DateTimeExtensions;
 
 namespace MpAdmin.Server.Controllers
 {
@@ -50,7 +51,7 @@ namespace MpAdmin.Server.Controllers
                 };
 
                 var chatId = item.message.chat.id;
-                var message = item.message.text;
+                var message = item.message.text.Fa2En();
                 var from = item.message.from;
                 double x;
 
@@ -101,7 +102,7 @@ namespace MpAdmin.Server.Controllers
                     {
                         string[] CodeAndStock = message.Split(' ');
 
-                        if (CodeAndStock[0].Length < 3 || CodeAndStock[0].Length > 6)
+                        if (CodeAndStock[0].Length < 3)
                         {
                             StringBuilder sd = new StringBuilder();
                             sd.AppendLine("کد کاغذ وارد شده نامعتبر می باشد " + "\U000026A0");
