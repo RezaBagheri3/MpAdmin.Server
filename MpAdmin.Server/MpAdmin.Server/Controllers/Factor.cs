@@ -42,7 +42,7 @@ namespace MpAdmin.Server.Controllers
                     TotalQuantity = model.totalQuantity,
                     TotalAmount = model.totalAmount,
                     Final = Final.NotFinalized,
-                    TotalProfit = model.factorWallPapers.Select(r => r.profit).Sum(),
+                    TotalProfit = model.factorWallPapers.Select(r => r.profit).Sum() - model.discount,
                     Discount = model.discount,
                     PayableAmount = model.payableAmount
                 };
@@ -176,7 +176,9 @@ namespace MpAdmin.Server.Controllers
                     {
                         if (item.BatchNumber == "")
                         {
-                            DAL.Entities.WallPaper WallPaper = unitOfWork.WallPaperRepo.SingleOrDefault(c => c.Code == item.WallPaperCode);
+                            DAL.Entities.WallPaper WallPaper = unitOfWork.WallPaperRepo.FirstOrDefault(c => c.Code == item.WallPaperCode && c.BatchNumber == "");
+                            int PriceRemainder = WallPaper.BuyPrice * item.Quantity;
+                            WallPaper.TotalPrice -= PriceRemainder;
                             WallPaper.Stock -= item.Quantity;
 
                             unitOfWork.WallPaperRepo.Update(WallPaper);
@@ -185,6 +187,8 @@ namespace MpAdmin.Server.Controllers
                         else
                         {
                             DAL.Entities.WallPaper WallPaper = unitOfWork.WallPaperRepo.SingleOrDefault(c => c.Code == item.WallPaperCode && c.BatchNumber == item.BatchNumber);
+                            int PriceRemainder = WallPaper.BuyPrice * item.Quantity;
+                            WallPaper.TotalPrice -= PriceRemainder;
                             WallPaper.Stock -= item.Quantity;
 
                             unitOfWork.WallPaperRepo.Update(WallPaper);

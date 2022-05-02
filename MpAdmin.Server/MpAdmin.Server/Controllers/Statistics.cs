@@ -30,11 +30,22 @@ namespace MpAdmin.Server.Controllers
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-                var wallPaperCodeCount = unitOfWork.WallPaperRepo.Get().Count();
+                List<DAL.Entities.WallPaper> AllWallpapers = await unitOfWork.WallPaperRepo.GetAsync().Result.ToListAsync();
 
-                var totalWallPaperStock = await unitOfWork.WallPaperRepo.GetAsync().Result.Select(r => r.Stock).SumAsync();
+                int wallPaperCodeCount = AllWallpapers.Count;
 
-                var totalWallPapersPrice = await unitOfWork.WallPaperRepo.GetAsync().Result.Select(p => p.TotalPrice).SumAsync();
+                int totalWallPaperStock = AllWallpapers.Select(r => r.Stock).Sum();
+
+                List<Int64> BigList = new List<Int64>();
+                List<int> myList = AllWallpapers.Select(r => r.TotalPrice).ToList();
+
+                foreach (var item in myList)
+                {
+                    BigList.Add(item);
+                }
+
+                long totalWallPapersPrice = BigList.Sum();
+
 
                 return Ok(
                     new

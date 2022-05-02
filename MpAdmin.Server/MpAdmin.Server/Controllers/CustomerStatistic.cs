@@ -66,16 +66,27 @@ namespace MpAdmin.Server.Controllers
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
+                int Year = DateTime.Now.GetPersianYear();
 
-                var CustomersByFactor = unitOfWork.CustomerRepo.Get(c => c.CustomerType == CustomerType.Customer).OrderByDescending(r => r.Factors.Where(g => g.Final == Final.Finalized).Count()).Select(p => new
+                var customerFa = unitOfWork.CustomerRepo.Get(c => c.CustomerType == CustomerType.Customer).Select(p=> new
                 {
-                    customerName = p.FullName,
-                    count = p.Factors.Where(g => g.Final == Final.Finalized).Count()
+                    p.Id,
+                    p.CustomerType,
+                    p.Address,
+                    p.FullName,
+                    p.PhoneNumber,
+                    p.Factors
                 }).ToList();
-                var CustomersByQuantity = unitOfWork.CustomerRepo.Get(c => c.CustomerType == CustomerType.Customer).OrderByDescending(r => r.Factors.Where(g => g.Final == Final.Finalized).Select(p => p.TotalQuantity).Sum()).Select(p => new
+
+                var CustomersByFactor = customerFa.OrderByDescending(r => r.Factors.Where(g => g.Final == Final.Finalized).ToList().Where(g=> g.DateTime.GetPersianYear() == Year).Count()).Select(p => new
                 {
                     customerName = p.FullName,
-                    quantity = p.Factors.Where(g => g.Final == Final.Finalized).Select(p => p.TotalQuantity).Sum()
+                    count = p.Factors.Where(g => g.Final == Final.Finalized).ToList().Where(g=> g.DateTime.GetPersianYear() == Year).Count()
+                }).ToList();
+                var CustomersByQuantity = customerFa.OrderByDescending(r => r.Factors.Where(g => g.Final == Final.Finalized).ToList().Where(g=> g.DateTime.GetPersianYear() == Year).Select(p => p.TotalQuantity).Sum()).Select(p => new
+                {
+                    customerName = p.FullName,
+                    quantity = p.Factors.Where(g => g.Final == Final.Finalized).ToList().Where(g=> g.DateTime.GetPersianYear() == Year).Select(p => p.TotalQuantity).Sum()
                 }).ToList();
 
                 return Ok(

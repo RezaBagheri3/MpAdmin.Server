@@ -264,6 +264,7 @@ namespace MpAdmin.Server.Controllers
                         new
                         {
                             result = 2,
+                            customer,
                             message = "هيچ فاکتوري براي مشتري مدنظر يافت نشد ."
                         }
                     );
