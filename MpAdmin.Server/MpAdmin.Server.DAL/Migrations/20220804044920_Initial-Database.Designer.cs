@@ -10,8 +10,8 @@ using MpAdmin.Server.DAL.Context;
 namespace MpAdmin.Server.DAL.Migrations
 {
     [DbContext(typeof(MpAdminContext))]
-    [Migration("20211128070545_Add-Customer-Factor")]
-    partial class AddCustomerFactor
+    [Migration("20220804044920_Initial-Database")]
+    partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,6 +113,9 @@ namespace MpAdmin.Server.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BatchNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("BuyPrice")
                         .HasColumnType("int");

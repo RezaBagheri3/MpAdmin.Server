@@ -82,11 +82,43 @@ namespace MpAdmin.Server.Controllers
                 var CustomerTotalQuantity = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalQuantity).Sum();
                 var StoreTotalQuantity = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalQuantity).Sum();
 
-                var CustomerPayableAmount = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.PayableAmount).Sum();
-                var StorePayableAmount = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.PayableAmount).Sum();
+                var BigCustomerPayableAmountList = new List<long>();
+                List<int> SmallCustomerPayableAmountList = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.PayableAmount).ToList();
 
-                var CustomerTotalProfit = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalProfit).Sum();
-                var StoreTotalProfit = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalProfit).Sum();
+                foreach (var item in SmallCustomerPayableAmountList)
+                {
+                    BigCustomerPayableAmountList.Add(item);
+                }
+
+                var BigStorePayableAmountList = new List<long>();
+                List<int> SmallStorePayableAmountList = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.PayableAmount).ToList();
+
+                foreach (var item in SmallStorePayableAmountList)
+                {
+                    BigStorePayableAmountList.Add(item);
+                }
+
+                long CustomerPayableAmount = BigCustomerPayableAmountList.Sum();
+                long StorePayableAmount = BigStorePayableAmountList.Sum();
+
+                var BigCustomerTotalProfitList = new List<long>();
+                List<int> SmallCustomerTotalProfitList = CustomerFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalProfit).ToList();
+
+                foreach (var item in SmallCustomerTotalProfitList)
+                {
+                    BigCustomerTotalProfitList.Add(item);
+                }
+
+                var BigStoreTotalProfitList = new List<long>();
+                List<int> SmallStoreTotalProfitList = StoreFactors.Where(c => c.DateTime.GetPersianYear() == Year).Select(p => p.TotalProfit).ToList();
+
+                foreach (var item in SmallStoreTotalProfitList)
+                {
+                    BigStoreTotalProfitList.Add(item);
+                }
+
+                long CustomerTotalProfit = BigCustomerTotalProfitList.Sum();
+                long StoreTotalProfit = BigStoreTotalProfitList.Sum();
 
                 return Ok(
                     new
