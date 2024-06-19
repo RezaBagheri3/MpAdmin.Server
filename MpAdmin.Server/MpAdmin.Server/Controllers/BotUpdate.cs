@@ -28,6 +28,7 @@ namespace MpAdmin.Server.Controllers
             _context = context;
         }
 
+        [HttpPost]
         [Route("[action]")]
         public IActionResult Update([FromBody] Rootobject item)
         {
